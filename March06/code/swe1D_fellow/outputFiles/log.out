@@ -1,0 +1,47 @@
+
+   SHALLOW WATER EQUATIONS <<<>>> 1D SIMULATOR
+   Version 1.0 - Jan 2025
+   Computational Hydraulics Group - University of Zaragoza
+   --------------------------------------------------
+
+>> Case:	
+
+
+>> Geometry: 
+     nCells 1000 - nWalls 999 
+     DeltaX 1.000000 - Xmin 0.000000 - Width 1.000000 - Length 1000.000000
+
+
+>> Geometry loaded
+
+
+   --------------------------------------------------
+>> Simulation setup loaded:
+     Simulation time: 100.0 s
+     CFL: 0.95
+     Friction term activated: 1
+     Friction model: 1
+     Number of cells: 1000
+     dx: 1.00 m
+     Canal length: 1000.00 m
+     Data saved each 10 iterations
+
+     Fluid density: 1000 kg/m3
+     Dynamic viscosity: 0.001000 Pa.s
+     Manning coefficient: 0.000
+
+>> Simulation setup loaded
+
+
+>> Flow initialization completed
+
+>> Initial conditions loaded
+>> INITIAL FLOW MASS 0.000000 m3
+
+>> Final Time: 100.069 seg
+
+>> Computation time 3.844 seg
+
+>> Simulation completed!
+
+ 
