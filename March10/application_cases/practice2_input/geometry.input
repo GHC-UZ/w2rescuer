@@ -1,0 +1,57 @@
+#   Shallow Water Equations 1D Simulator (SWE1D)
+#  ===========================================================================================
+#   Rectangular cross section
+#  ===========================================================================================
+#   Version 1.0 - Jan 2025
+#  ===========================================================================================
+#   Computational Hydraulics Group - University of Zaragoza   
+#  =========================================================================================== 
+
+
+# Channel geometry definition --------------------------------------------------
+nCells: 1000            #Number of nCells
+Xmin: 0.0               #Channel position (m)
+DeltaX: 10.0             #Cell size (m)
+Width: 30.0              #Channel width (m)
+
+
+# Bed surface configuration type ---------------------------------------------------------
+iniBed: 1               # Type of condition 1: Uniform bed | 2: Bed step | 3: Coast slope 
+
+# Type 1: Uniform bed slope configuration
+ZBupstream: 200.0		    #Bed elevation at inlet (m)						 
+ZBslope: -0.001			#Bed slope
+
+# Type 2: Bed step configuration
+XBstep: 700.0			#Step position (m)
+ZBL: 0.0 				#Bed level - left (m)
+ZBR: 1.0 				#Bed level - right (m)
+
+# Type 3: Coast slope configuration
+XBcoast: 300.0 			#Coast position (m)
+ZBbase: 0.0             #Bed base level (m)
+slopeCoast: 0.002 		#Coast slope
+
+
+
+# Initial condition for flow -------------------------------------------------------------
+iniCond: 1			#Type of condition 1: Uniform flow | 2: Dambreak | 3: Discontinuity
+
+# Type 1: Initial uniform flow configuration
+Uconst: 1.40577398900016         #Constant velocity (m/s)
+Hconst: 2.37117300463364			#Constant water depth (m)
+
+# Type 2: Initial dambreak configuration
+Xdam: 300.0			#Dambreak position (m)
+ZSL: 2.0 			#Water surface level - left (m) 
+ZSR: 0.0 		    #Water surface level - right (m)
+
+# Type 3: Initial discontinuity configuration
+Xstep: 300.0		#Discontinuity position (m)
+HL: 2.0 			#Water depth - left (m)
+UL: 0.0 			#Flow velocity - left (m/s)
+HR: 0.2 			#Water surface level - right (m) 
+UR: 0.0 			#Flow detph - right (m/s)
+
+
+
