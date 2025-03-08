@@ -269,7 +269,7 @@ int h_compute_flow_time_step_2D(int nX, int nY,
 		for (int i = 0; i < nX-1; i++) { // Columns  
             int left = IDX(i,j,nX);
             int right = IDX(i+1,j,nX);
-			if (h[left] > tol9 && h[right] > tol9){
+			if (h[left] > tol9 || h[right] > tol9){
 				cROE = sqrt(g*0.5*(h[left]+h[right]));
 				uxROE = (sqrt(h[left])*ux[left]+sqrt(h[right])*ux[right]) / (sqrt(h[left])+sqrt(h[right]));
 				if(fabs(uxROE)+cROE > tol9) {
@@ -284,7 +284,7 @@ int h_compute_flow_time_step_2D(int nX, int nY,
 		for (int i = 0; i < nX; i++) { // Columns  
             int bottom =IDX(i,j,nX);
             int top = IDX(i,j+1,nX);
-			if (h[bottom] > tol9 && h[top] > tol9){
+			if (h[bottom] > tol9 || h[top] > tol9){
 				cROE = sqrt(g*0.5*(h[top]+h[bottom]));
 				uyROE = (sqrt(h[top])*uy[top]+sqrt(h[bottom])*uy[bottom]) / (sqrt(h[top])+sqrt(h[bottom]));
             	if(fabs(uyROE)+cROE > tol9) {
@@ -396,7 +396,7 @@ int h_compute_x_fluxes(int nX, int nY,
 					}
 					
 					// Calculate the bed slope source term
-					b1P= (-1./(2.*cROE)) * g * (hp - 0.5 * fabs(dzp)) * dzp;
+					b1P= (1./(2.*cROE)) * g * (hp - 0.5 * fabs(dzp)) * dzp;
 				#else
 					So = -(zb[right]-zb[left])/dx;
 					Fp = g*hav*So*dx;
@@ -424,6 +424,9 @@ int h_compute_x_fluxes(int nX, int nY,
 				// Friction fix
 				Qstart = (qx[left]+alpha1*e1[1])*normalX + (qy[left]+alpha1*e1[2])*normalY - b1P;
 				Qx = Qstart - b1F;
+				if(fabs(Qstart)<tol9) Qstart=0.0;
+				if(fabs(Qx)<tol9) Qx=0.0;
+				
 				if(Qx*Qstart < 0.0){
 					b1F = Qstart;
 				}
@@ -452,7 +455,7 @@ int h_compute_x_fluxes(int nX, int nY,
 					}
 
 					if(hxx < 0.0){
-						beta1 = hstar*lambda2;
+						beta1 = hstar*lambda3;
 						beta3 = -beta1;
 					}				
 				}
@@ -654,7 +657,7 @@ int h_compute_y_fluxes(int nX, int nY,
 					}
 					
 					// Calculate the bed slope source term
-					b1P= (-1./(2.*cROE)) * g * (hp - 0.5 * fabs(dzp)) * dzp;
+					b1P= (1./(2.*cROE)) * g * (hp - 0.5 * fabs(dzp)) * dzp;
 				#else
 					So = -(zb[top]-zb[bottom])/dx;
 					Fp = g*hav*So*dx;
@@ -682,6 +685,9 @@ int h_compute_y_fluxes(int nX, int nY,
 				// Friction fix
 				Qstart = (qx[bottom]+alpha1*e1[1])*normalX + (qy[bottom]+alpha1*e1[2])*normalY - b1P;
 				Qx = Qstart - b1F;
+				if(fabs(Qstart)<tol9) Qstart=0.0;
+				if(fabs(Qx)<tol9) Qx=0.0;
+
 				if(Qx*Qstart < 0.0){
 					b1F = Qstart;
 				}
@@ -710,7 +716,7 @@ int h_compute_y_fluxes(int nX, int nY,
 					}
 
 					if(hxx < 0.0){
-						beta1 = hstar*lambda2;
+						beta1 = hstar*lambda3;
 						beta3 = -beta1;
 					}				
 				}
@@ -834,13 +840,11 @@ int h_check_depth_positivity(int nCells,
 		aux1 = h[ic] - (*dt)*DU1[ic]/dx;		
 		if(fabs(aux1) < tol9) aux1 = 0.0;
 
-		if( aux1 < 0.0) {
-			while(aux1 < 0.0 && (*dt) > 0.01*dt0) {
-				(*dt) = 0.90 * (*dt);
+		while(aux1 < 0.0) {
+			(*dt) = 0.50 * (*dt);
 
-				aux1 = h[ic] - (*dt)*DU1[ic]/dx;		
-				if(fabs(aux1) < tol9) aux1 = 0.0;
-			}
+			aux1 = h[ic] - (*dt)*DU1[ic]/dx;		
+			if(fabs(aux1) < tol9) aux1 = 0.0;
 		}
 
 	}			
@@ -869,6 +873,8 @@ int h_update_cells_2D(int nCells,
 				ux[ic] = qx[ic]/h[ic];
 				uy[ic] = qy[ic]/h[ic];
 			}else{
+				qx[ic]=0.0;
+				qy[ic]=0.0;
 				ux[ic] = 0.0;
 				uy[ic] = 0.0;
 			}				
@@ -890,6 +896,48 @@ int h_update_cells_2D(int nCells,
     return 1;
 
 }  
+
+int h_wet_dry_x(int nX, int nY,
+	double *h, double *qx, double *ux,	double *zb){
+	for (int j = 0; j < nY; j++) {     // Rows  
+		for (int i = 0; i < nX-1; i++) { // Columns  
+            int left = IDX(i,j,nX);
+            int right = IDX(i+1,j,nX);
+			if((h[right] < tol9) && (h[left] + zb[left] <zb[right])){
+				qx[left]=0.0;
+				ux[left]=0.0;
+			}
+			if((h[left] < tol9) && (h[right] + zb[right] <zb[left])){
+				qx[right]=0.0;
+				ux[right]=0.0;
+			}
+		}
+	}
+	return 1;
+}
+
+int h_wet_dry_y(int nX, int nY,
+	double *h, double *qy, double *uy,	double *zb){
+
+	// Process vertical interfaces
+	for (int j = 0; j < nY-1; j++) {     // Rows  
+		for (int i = 0; i < nX; i++) { // Columns  
+			int bottom =IDX(i,j,nX);
+			int top = IDX(i,j+1,nX);
+			if((h[top] < tol9) && (h[bottom] + zb[bottom] <zb[top])){
+				qy[bottom]=0.0;
+				uy[bottom]=0.0;
+			}
+			if((h[bottom] < tol9) && (h[top] + zb[top] <zb[bottom])){
+				qy[top]=0.0;
+				uy[top]=0.0;
+			}
+		}
+	}
+	return 1;
+}
+
+
 
 int h_set_west_boundary(int nX, int nY, double *h, 
 	double *qx, double *qy, double *ux, double *uy, 

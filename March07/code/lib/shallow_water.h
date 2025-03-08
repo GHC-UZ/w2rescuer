@@ -70,6 +70,12 @@ int h_update_cells_2D(int nCells,
 	double *DU1, double *DU2, double *DU3,
 	double dx,double dt);
 
+int h_wet_dry_x(int nX, int nY,
+	double *h, double *qx, double *ux,	double *zb);
+
+int h_wet_dry_y(int nX, int nY,
+	double *h, double *qy, double *uy,	double *zb);
+
 int h_set_west_boundary(int nX, int nY, double *h, 
 	double *qx, double *qy, double *ux, double *uy,
 	double QIN, double HIN);

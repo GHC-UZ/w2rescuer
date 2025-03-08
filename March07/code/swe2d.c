@@ -318,6 +318,12 @@ while(t <= simTime) {
 			DU1, DU2, DU3,
 			dx, dt);
 	
+	h_wet_dry_x(nX, nY,
+		h, qx, ux, zb);
+
+	h_wet_dry_y(nX, nY,
+		h, qy, uy, zb);
+	
 
 // SIMULATION MONITORS
 	massWt0 = massWtn;
