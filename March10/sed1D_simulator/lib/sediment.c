@@ -293,8 +293,9 @@ int h_compute_bedload_time_step(int nWalls,
 		//storage the bedlead virtual celerity at each wall in the lB array
 		//reduce the minimum bedload time step in the local dt scalar
 
-
-
+		//lB[ic] =
+		
+		//dt =
 
 		//**** end of completed code ********	
 	}	
@@ -332,8 +333,7 @@ int h_compute_bedload_wall_fluxes(int nWalls,
 			//compute the numerical bedload rate at the wall in the local Qsx scalar
 			//remember that the bedload virtual celerity at each wall was storaged in the lB array
 
-
-
+			//QSx =
 
 			//**** end of completed code ********			
             
@@ -358,8 +358,8 @@ int h_compute_bedload_wall_fluxes(int nWalls,
 			//remember that both left and right contributions must be added to the cells ic and ic+1
 			//not that the porosity effect must be included in this step
 
-
-
+			//DQs[ic] +=
+			//DQs[ic+1]
 
 			//**** end of completed code ********									
 
@@ -428,8 +428,9 @@ int h_update_bedload_cells(int nCells,
 		//update de bed elevation zb at each cell
 		//remember that the bedload contribution at each cell was added in the DQs array
 
+		//Ab[ic] =
 
-
+		//zb[ic] =
 
 		//**** end of completed code ********			
 
@@ -448,7 +449,7 @@ int h_update_bedload_cells(int nCells,
 			//**** complete code here ********
 			//compute the bed shear stress tauB at each cell 
 
-
+			//tauB[ic] =
 
 			//**** end of completed code ********				
 
@@ -461,15 +462,19 @@ int h_update_bedload_cells(int nCells,
 			//remember that the bedload computation depends on the selected bedloadCap model
 			//grass-type formulation is recomended by computing the Gcell factor for each cell
 
-
-
+			if(bedloadCap==0){
+				//Gcell[ic] =
+			}else if(bedloadCap==1){	
+				//Gcell[ic] =
+			}else if(bedloadCap==2){
+				//Gcell[ic] =
+			}
 
 			//**** end of completed code ********
-			if((zb[idx]-zr[idx]) < tol6 ){
-				Gcell[idx]=0.0;
-			}		
-			qs[idx] = Gcell[idx] * (u[idx]*u[idx]) * u[idx]; 									
-								
+			if((zb[ic]-zr[ic]) < tol6 ){
+				Gcell[ic]=0.0;
+			}
+			qs[ic] = Gcell[ic] * (u[ic]*u[ic]) * u[ic];  															
 			Qs[ic] = M[ic] * qs[ic];
 		
 		}else{ //dry cell
@@ -486,7 +491,7 @@ int h_update_bedload_cells(int nCells,
 		//**** complete code here ********
 		//re-initialized the bedload contribution DQs array for the next time step 
 
-
+		//DQs[ic] = 
 
 		//**** end of completed code ********	
 
