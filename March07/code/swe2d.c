@@ -323,7 +323,19 @@ while(t <= simTime) {
 
 	h_wet_dry_y(nX, nY,
 		h, qy, uy, zb);
-	
+
+
+   // West boundary
+   h_set_west_boundary(nX, nY, h, qx, qy, ux, uy, QIN, HIN);
+   // East boundary
+   h_set_east_boundary(nX, nY, h, qx, qy, ux, uy, zb, QIN, HIN);
+   // North boundary
+   h_set_north_boundary(nX, nY, h, qx, qy, ux, uy);
+   // South boundary
+   h_set_south_boundary(nX, nY, h, qx, qy, ux, uy);
+
+	Qin = 0.0; // West inflow
+    Qout = 0.0; // East outflow
 
 // SIMULATION MONITORS
 	massWt0 = massWtn;
@@ -349,18 +361,6 @@ while(t <= simTime) {
 		printf("\n\tWater discharge IN %.6lf OUT %.6lf  [m3/s]\n",Qin,Qout);			
 	}
 
-
-   // West boundary
-   h_set_west_boundary(nX, nY, h, qx, qy, ux, uy, QIN, HIN);
-   // East boundary
-   h_set_east_boundary(nX, nY, h, qx, qy, ux, uy, zb, QIN, HIN);
-   // North boundary
-   h_set_north_boundary(nX, nY, h, qx, qy, ux, uy);
-   // South boundary
-   h_set_south_boundary(nX, nY, h, qx, qy, ux, uy);
-
-	Qin = 0.0; // West inflow
-    Qout = 0.0; // East outflow
 		
 
 // UPDATE TIME
