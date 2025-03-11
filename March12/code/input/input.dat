@@ -1,0 +1,16 @@
+500
+0.9               !CFL
+1                 !order
+0.00001                !final time
+0                 !left point of grid
+50                !right point of grid
+1.d-6             !threshold
+3                 !entropy correction / 3-Harten, 4-No entropy correction
+1.0               !seconds to print
+1                 !limiter / 1-minmod,2-superbee,3-MC,4-vanleer,5-van albada,7-no limter
+0.0               !Manning
+0.0               !theta
+1                 !Time scheme / 1=euler
+0.28     	  !amplitude of solitary
+1.0               !The value of the water from the still water level (0.0) the the topography
+4                 ! Flux function 1=roe 2=Lax-Wendrof 3=HLL 4=DOT

@@ -1,0 +1,13 @@
+A shallow water code for 1D computations (toy code)
+It is a Finite Volume code first order in space and in time. It uses the approximate Riemann solver of Roe (Roe,1981)
+and an upwinding of the topography source term (Bermudez et al, 1984). It has the option for other solvers too without the topography. 
+
+The initial conditions of the problems are in initial_cond.f90 and the topography in initial_bed.f90
+my_1dsolver uses the files input.dat and gauges.dat. The input.dat contains all the numerical parameters of the test case.
+gauges.dat contains the wave gauges.dat where the time series of the surface elevation is recorded.
+
+
+The source is in the folder src. The input files are placed in the folder input and the output files are placed in the folder output 
+
+
+maria.kazolea@inria.fr
