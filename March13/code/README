@@ -1,0 +1,7 @@
+A porous shallow water code for 1D computations
+The subroutine that computes the fluxes of the augmented form of the equations has to be filled
+
+The source is in the folder src. The input files are placed in the folder input and the output files are placed in the folder output 
+
+
+maria.kazolea@inria.fr
