@@ -1,0 +1,15 @@
+600
+0.9               !CFL
+1                 !order
+1.0                !final time
+0                 !left point of grid
+100                !right point of grid
+1.d-6             !threshold
+3                 !entropy correction / 3-Harten, 4-No entropy correction
+1.0               !seconds to print
+1                 !limiter / 1-minmod,2-superbee,3-MC,4-vanleer,5-van albada,7-no limter
+0.0               !Manning
+0.0               !theta
+1                 !Time scheme / 1=euler
+0.28     	  !amplitude of solitary
+1.0               !Initial water depth - from the still water level (0.0) to the topography

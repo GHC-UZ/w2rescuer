@@ -1,0 +1,15 @@
+A shallow water code for 1D computations
+It is a Finite Volume code of (up to) third order in space and 
+(up to) fourth order in time. It uses the approximate Riemann solver of Roe (Roe,1981)
+and an upwinding of the topography source term (Bermudez et al, 1984). For the spacial accuracy 
+a third order MUSCL-type scheme is used. To satisfy the C-property to higher spatial order an extra term to bed is added (Hubbard and Garcia-Navvaro,2000) and for the extended C-property we do a redefinition of the bed slope and the numerical fluxes are computed assuming temporarily zero velocity at wet/dry fronts. Four time schemes have been implemented, euler, RK3, EBDF3 and adams moulton-adams basforth
+
+The initial conditions of the problems are in initial_cond.f90 and the topography in initial_bed.f90
+my_solver uses the files input.dat and gauges.dat. The input.dat contains all the numerical parameters of the test case.
+gauges.dat contains the wave gauges.dat where the time series of the surface elevation is recorded.
+
+
+The source is in the folder src. The input files are placed in the folder input and the output files are placed in the folder output 
+
+
+maria.kazolea@inria.fr
