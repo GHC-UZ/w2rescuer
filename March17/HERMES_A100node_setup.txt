@@ -1,0 +1,21 @@
+
+>> ssh user@155.210.134.18 -p 4001
+
+User: 
+workertfdX with X=1,...,20
+Password: 
+Crumb-Submitter-Thread-Bling
+
+First access:
+>> cd ~
+>> nano .basrc
+
+Add at the end of the file (if reguired):
+
+export PATH="/usr/local/cuda/bin:$PATH"
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/bin
+
+Ctrl+o to save
+Ctrl+x to exit
+
+>> source .basrc
