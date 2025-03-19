@@ -374,11 +374,9 @@ while(t <= simTime) {
 	#endif
 
 	#if __CUDACC__
-		cudaMemcpy(h, d_h, nCells * sizeof(double), cudaMemcpyDeviceToHost); 
+		//has water transferred at the beggining of the loop
 		cudaMemcpy(DU1, d_DU1, nCells * sizeof(double), cudaMemcpyDeviceToHost); 
 	#endif
-	//has water transferred at the beggining of the loop
-	cudaMemcpy(DU1, d_DU1, nCells * sizeof(double), cudaMemcpyDeviceToHost); 	
 	// Negative water depth checking
 	h_check_depth_positivity(nCells,
 		h,  DU1,  dx,  &(dt));
